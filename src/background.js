@@ -1,5 +1,5 @@
 if (!document.pictureInPictureEnabled) {
-  chrome.browserAction.setTitle('Picture-in-Picture is NOT supported.');
+  chrome.browserAction.setTitle({ title: 'Picture-in-Picture NOT supported' });
 } else {
   chrome.browserAction.onClicked.addListener(tab => {
     const code = `

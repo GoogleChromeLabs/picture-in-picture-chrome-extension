@@ -1,6 +1,6 @@
-# Picture in Picture Chrome Extension
+# Picture-in-Picture Chrome Extension
 
-This extension demonstrates the Picture in Picture API in Chrome.
+This extension demonstrates the [Picture-in-Picture API](https://wicg.github.io/picture-in-picture/) in Chrome.
 
 **Note:** This only works in Chrome 68 or later.
 

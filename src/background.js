@@ -12,6 +12,9 @@ if (!document.pictureInPictureEnabled) {
         } else {
           await video.requestPictureInPicture();
           video.setAttribute('__pip__', true);
+          video.addEventListener('emptied', event => {
+            video.removeAttribute('__pip__');
+          });
         }
       })();
     `;

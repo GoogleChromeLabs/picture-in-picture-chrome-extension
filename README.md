@@ -2,13 +2,11 @@
 
 This extension demonstrates the [Picture-in-Picture API](https://wicg.github.io/picture-in-picture/) in Chrome.
 
-**Note:** This only works in Chrome 68 or later.
+**Note:** This works in Chrome 69.
 
 **To Install and Use It**
 1. In `chrome://flags` enable the following flags:
-   * \#enable-experimental-web-platform-features
    * \#enable-surfaces-for-videos
-   * \#enable-picture-in-picture
 
 1. Download and extract the [extension zip file](https://github.com/beaufortfrancois/picture-in-picture-chrome-extension/archive/master.zip).
 1. In `chrome://extensions` toggle **Developer mode** (upper-right corner) if it is not already on.

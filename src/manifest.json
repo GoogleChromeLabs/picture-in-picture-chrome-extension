@@ -18,6 +18,7 @@
   "permissions": [
     "activeTab"
   ],
+  "minimum_chrome_version": "69.0.3483.0",
   "manifest_version": 2
 }
 

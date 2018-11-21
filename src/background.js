@@ -19,7 +19,7 @@ if (!document.pictureInPictureEnabled) {
     const code = `
       (async () => {
         const video = document.querySelector('video');
-        
+
         if (video.hasAttribute('__pip__')) {
           await document.exitPictureInPicture();
         } else {
@@ -31,6 +31,6 @@ if (!document.pictureInPictureEnabled) {
         }
       })();
     `;
-    chrome.tabs.executeScript({ code });
+    chrome.tabs.executeScript({ code, allFrames: true });
   });
 }

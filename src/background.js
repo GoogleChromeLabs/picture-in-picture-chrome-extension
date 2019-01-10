@@ -18,7 +18,15 @@ if (!document.pictureInPictureEnabled) {
   chrome.browserAction.onClicked.addListener(tab => {
     const code = `
       (async () => {
-        const video = document.querySelector('video');
+        const videos = Array.from(document.querySelectorAll('video'))
+            .filter(video => video.readyState != 0)
+            .filter(video => video.disablePictureInPicture == false)
+            .sort((v1, v2) => (v2.videoWidth * v2.videoHeight) - (v1.videoWidth * v1.videoHeight));
+
+        if (videos.length === 0)
+          return;
+
+        const video = videos[0];
 
         if (video.hasAttribute('__pip__')) {
           await document.exitPictureInPicture();

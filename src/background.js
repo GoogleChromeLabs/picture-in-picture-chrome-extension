@@ -16,33 +16,20 @@ if (!document.pictureInPictureEnabled) {
   chrome.browserAction.setTitle({ title: 'Picture-in-Picture NOT supported' });
 } else {
   chrome.browserAction.onClicked.addListener(tab => {
-    const code = `
-      (async () => {
-        const videos = Array.from(document.querySelectorAll('video'))
-            .filter(video => video.readyState != 0)
-            .filter(video => video.disablePictureInPicture == false)
-            .sort((v1, v2) => {
-              const v1Rect = v1.getClientRects()[0];
-              const v2Rect = v1.getClientRects()[0];
-              return ((v2Rect.width * v2Rect.height) -(v1Rect.width * v1Rect.height));
-            });
-
-        if (videos.length === 0)
-          return;
-
-        const video = videos[0];
-
-        if (video.hasAttribute('__pip__')) {
-          await document.exitPictureInPicture();
-        } else {
-          await video.requestPictureInPicture();
-          video.setAttribute('__pip__', true);
-          video.addEventListener('leavepictureinpicture', event => {
-            video.removeAttribute('__pip__');
-          }, { once: true });
-        }
-      })();
-    `;
-    chrome.tabs.executeScript({ code, allFrames: true });
+    chrome.tabs.executeScript({ file: 'script.js', allFrames: true });
   });
 }
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-134864766-1']);
+
+chrome.runtime.onMessage.addListener(data => {
+  if (data.message === 'enter')
+    _gaq.push(['_trackPageview']);
+});
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();

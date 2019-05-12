@@ -3,6 +3,7 @@
   "description": "Watch video using Picture-in-Picture",
   "version": "1.6",
   "icons": {
+    "16": "assets/icon16.png",
     "128": "assets/icon128.png"
   },
   "background": {
@@ -27,7 +28,8 @@
   },
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "permissions": [
-    "<all_urls>"
+    "<all_urls>",
+    "contextMenus"
   ],
   "minimum_chrome_version": "69.0.3483.0",
   "manifest_version": 2

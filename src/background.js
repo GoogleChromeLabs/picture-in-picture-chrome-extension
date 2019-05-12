@@ -18,6 +18,20 @@ if (!document.pictureInPictureEnabled) {
   chrome.browserAction.onClicked.addListener(tab => {
     chrome.tabs.executeScript({ file: 'script.js', allFrames: true });
   });
+
+  chrome.runtime.onInstalled.addListener(() => {
+    chrome.contextMenus.create({
+      id: 'extension.google.pip',
+      contexts: ['page', 'video'],
+      title: 'Picture-in-Picture'
+    });
+  });
+
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId === 'extension.google.pip') {
+      chrome.tabs.executeScript({ file: 'script.js', allFrames: true });
+    }
+  });
 }
 
 var _gaq = _gaq || [];

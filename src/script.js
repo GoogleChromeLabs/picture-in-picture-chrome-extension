@@ -18,7 +18,7 @@
     .filter(video => video.disablePictureInPicture == false)
     .sort((v1, v2) => {
       const v1Rect = v1.getClientRects()[0];
-      const v2Rect = v1.getClientRects()[0];
+      const v2Rect = v2.getClientRects()[0];
       return ((v2Rect.width * v2Rect.height) - (v1Rect.width * v1Rect.height));
     });
 

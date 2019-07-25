@@ -28,8 +28,11 @@ chrome.runtime.onMessage.addListener(data => {
     _gaq.push(['_trackPageview']);
 });
 
-(function() {
+chrome.storage.sync.get({ optOutAnalytics: false }, results => {
+  if (results.optOutAnalytics) {
+    return;
+  }
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
   ga.src = 'https://ssl.google-analytics.com/ga.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
+});

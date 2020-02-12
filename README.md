@@ -11,7 +11,8 @@ To install,
   4. Go to `chrome://extensions`
   5. If not enabled, enable "Developer Mode" using the switch in the top right corner
   6. Click "Load unpacked" on the left of the new bar that appears
-  7. TO BE CONTINUED ONCE I GET THIS TO WORK! 
+  7. Select the unzipped folder, then select the folder titled `src`. Click open or select.
+  8. Voilà! 
 
 
 <img src="/screenshot.png">

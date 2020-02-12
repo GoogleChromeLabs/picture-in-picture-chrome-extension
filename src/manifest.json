@@ -1,6 +1,6 @@
 {
-  "name": "Picture-in-Picture Extension (by Google)",
-  "description": "Watch video using Picture-in-Picture",
+  "name": "Picture-in-Picture Extension for Babylon",
+  "description": "Use this extension to pop out video for appointments. By Chris",
   "version": "1.8",
   "icons": {
     "128": "assets/icon128.png"

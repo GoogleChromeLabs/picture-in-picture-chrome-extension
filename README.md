@@ -4,9 +4,17 @@
 
 A simple Chrome Extension to demonstrate the [Picture-in-Picture Web API](https://wicg.github.io/picture-in-picture/) in Chrome.
 
-Get it on the Chrome Web Store at https://chrome.google.com/webstore/detail/hkgfoiooedgoejojocmhlaklaeopbecg
+To install, 
+  1. Download this repository as a Zip.
+  2. Unzip and note folder name and path
+  3. Open Chrome
+  4. Go to `chrome://extensions`
+  5. If not enabled, enable "Developer Mode" using the switch in the top right corner
+  6. Click "Load unpacked" on the left of the new bar that appears
+  7. TO BE CONTINUED ONCE I GET THIS TO WORK! 
 
-<img src="https://raw.githubusercontent.com/beaufortfrancois/picture-in-picture-chrome-extension/master/screenshot.png">
+
+<img src="/screenshot.png">
 
 ## Configuration
 

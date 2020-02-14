@@ -6,22 +6,22 @@ A simple Chrome Extension to demonstrate the [Picture-in-Picture Web API](https:
 
 ## Installation Instructions 
 1. Download this repository as a Zip.  
-![Download ZIP](DownloadZip.png)  
+![Download ZIP](screenshots/DownloadZip.png)  
 2. Unzip and note folder name and path  
 3. Open Chrome  
 4. Go to `chrome://extensions`  
-![Enter chrome://extensions in URL bar](UrlBar.png)  
+![Enter chrome://extensions in URL bar](screenshots/UrlBar.png)  
 5. If not enabled, enable "Developer Mode" using the switch in the top right corner  
-![Swith on Developer Mode](DeveloperModeOn.png)  
+![Swith on Developer Mode](screenshots/DeveloperModeOn.png)  
 6. Click "Load unpacked" on the left of the new bar that appears  
-![Click Load Unpacked](LoadUnpacked.png)  
+![Click Load Unpacked](screenshots/LoadUnpacked.png)  
 7. Select the unzipped folder, then select the folder titled `src`. Click open or select.  
-![Select folder titled SRC](FolderInFinder.png)  
+![Select folder titled SRC](screenshots/FolderInFinder.png)  
 8. Voilà!   
-![Extension visible in Chrome extensions list](InExtensionsList.png)   
+![Extension visible in Chrome extensions list](screenshots/InExtensionsList.png)   
 
 ### Screenshot
-![Screenshot of extension in action](screenshot.png)
+![Screenshot of extension in action](screenshots/screenshot.png)
 
 ### Configuration
 

@@ -4,20 +4,26 @@
 
 A simple Chrome Extension to demonstrate the [Picture-in-Picture Web API](https://wicg.github.io/picture-in-picture/) in Chrome.
 
-To install, 
-  1. Download this repository as a Zip.
-  2. Unzip and note folder name and path
-  3. Open Chrome
-  4. Go to `chrome://extensions`
-  5. If not enabled, enable "Developer Mode" using the switch in the top right corner
-  6. Click "Load unpacked" on the left of the new bar that appears
-  7. Select the unzipped folder, then select the folder titled `src`. Click open or select.
-  8. Voilà! 
+## Installation Instructions 
+1. Download this repository as a Zip.  
+![Download ZIP](DownloadZip.png)  
+2. Unzip and note folder name and path  
+3. Open Chrome  
+4. Go to `chrome://extensions`  
+![Enter chrome://extensions in URL bar](UrlBar.png)  
+5. If not enabled, enable "Developer Mode" using the switch in the top right corner  
+![Swith on Developer Mode](DeveloperModeOn.png)  
+6. Click "Load unpacked" on the left of the new bar that appears  
+![Click Load Unpacked](LoadUnpacked.png)  
+7. Select the unzipped folder, then select the folder titled `src`. Click open or select.  
+![Select folder titled SRC](FolderInFinder.png)  
+8. Voilà!   
+![Extension visible in Chrome extensions list](InExtensionsList.png)   
 
+### Screenshot
+![Screenshot of extension in action](screenshot.png)
 
-<img src="/screenshot.png">
-
-## Configuration
+### Configuration
 
 The keyboard shortcut (defaults to `Alt-P`) can be changed on the
 Chrome Extension Shortcuts settings page:

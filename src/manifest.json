@@ -29,7 +29,6 @@
     "page": "options.html",
     "open_in_tab": false
   },
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "permissions": [
     "<all_urls>",
     "storage"

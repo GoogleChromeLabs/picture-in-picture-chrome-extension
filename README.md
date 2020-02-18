@@ -1,4 +1,6 @@
 # Picture-in-Picture Chrome Extension
+<img src="screenshots/pipdemo.gif" alt="Gif of extension in action" width="600"/>
+
 
 *Forked from Google's Github*
 

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-(async () => {
+function findLargestPlayingVideo() {
   const videos = Array.from(document.querySelectorAll('video'))
     .filter(video => video.readyState != 0)
     .filter(video => video.disablePictureInPicture == false)
@@ -22,19 +22,43 @@
       return ((v2Rect.width * v2Rect.height) - (v1Rect.width * v1Rect.height));
     });
 
-  if (videos.length === 0)
+  if (videos.length === 0) {
     return;
-
-  const video = videos[0];
-
-  if (video.hasAttribute('__pip__')) {
-    await document.exitPictureInPicture();
-  } else {
-    await video.requestPictureInPicture();
-    video.setAttribute('__pip__', true);
-    video.addEventListener('leavepictureinpicture', event => {
-      video.removeAttribute('__pip__');
-    }, { once: true });
-    chrome.runtime.sendMessage({ message: 'enter' });
   }
+
+  return videos[0];
+}
+
+async function requestPictureInPicture(video) {
+  await video.requestPictureInPicture();
+  video.setAttribute('__pip__', true);
+  video.addEventListener('leavepictureinpicture', event => {
+    video.removeAttribute('__pip__');
+  }, { once: true });
+}
+
+async function maybeUpdatePictureInPictureVideo() {
+  if (!document.querySelector('[__pip__]')) {
+    return;
+  }
+  const video = findLargestPlayingVideo();
+  if (video && !video.hasAttribute('__pip__')) {
+    await requestPictureInPicture(video);
+  }
+  // Check again in 1s if largest playing video has changed.
+  setTimeout(maybeUpdatePictureInPictureVideo, 1000);
+}
+
+(async () => {
+  const video = findLargestPlayingVideo();
+  if (!video) {
+    return;
+  }
+  if (video.hasAttribute('__pip__')) {
+    document.exitPictureInPicture();
+    return;
+  }
+  await requestPictureInPicture(video);
+  chrome.runtime.sendMessage({ message: 'enter' });
+  maybeUpdatePictureInPictureVideo();
 })();

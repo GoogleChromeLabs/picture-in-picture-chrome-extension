@@ -45,8 +45,6 @@ async function maybeUpdatePictureInPictureVideo() {
   if (video && !video.hasAttribute('__pip__')) {
     await requestPictureInPicture(video);
   }
-  // Check again in 1s if largest playing video has changed.
-  setTimeout(maybeUpdatePictureInPictureVideo, 1000);
 }
 
 (async () => {
@@ -60,5 +58,6 @@ async function maybeUpdatePictureInPictureVideo() {
   }
   await requestPictureInPicture(video);
   chrome.runtime.sendMessage({ message: 'enter' });
-  maybeUpdatePictureInPictureVideo();
+
+  new ResizeObserver(maybeUpdatePictureInPictureVideo).observe(video);
 })();

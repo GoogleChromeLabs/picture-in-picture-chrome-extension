@@ -24,8 +24,13 @@ var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-134864766-1']);
 
 chrome.runtime.onMessage.addListener(data => {
-  if (data.message === 'enter')
-    _gaq.push(['_trackPageview']);
+  _gaq.push(['_trackPageview']);
+  if (data.type === 'enter') {
+    _gaq.push(['_trackEvent', 'enter']);
+  } else if (data.type === 'error') {
+    _gaq.push(['_trackEvent', 'error', data.message]);
+    new Notification(`${data.origin} is not supported`);
+  }
 });
 
 chrome.storage.sync.get({ optOutAnalytics: false }, results => {

@@ -30,11 +30,16 @@
   if (video.hasAttribute('__pip__')) {
     await document.exitPictureInPicture();
   } else {
-    await video.requestPictureInPicture();
-    video.setAttribute('__pip__', true);
-    video.addEventListener('leavepictureinpicture', event => {
-      video.removeAttribute('__pip__');
-    }, { once: true });
-    chrome.runtime.sendMessage({ message: 'enter' });
+    video.requestPictureInPicture()
+    .then(_ => {
+      video.setAttribute('__pip__', true);
+      video.addEventListener('leavepictureinpicture', event => {
+        video.removeAttribute('__pip__');
+      }, { once: true });
+      chrome.runtime.sendMessage({ type: 'enter' });
+    })
+    .catch(error => {
+      chrome.runtime.sendMessage({ type: 'error', message: error.message, origin: location.hostname });
+    });
   }
 })();

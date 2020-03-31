@@ -35,15 +35,19 @@ async function requestPictureInPicture(video) {
   video.addEventListener('leavepictureinpicture', event => {
     video.removeAttribute('__pip__');
   }, { once: true });
+  new ResizeObserver(maybeUpdatePictureInPictureVideo).observe(video);
 }
 
-async function maybeUpdatePictureInPictureVideo() {
+function maybeUpdatePictureInPictureVideo(entries, observer) {
+  const observedVideo = entries[0].target;
   if (!document.querySelector('[__pip__]')) {
+    observer.unobserve(observedVideo);
     return;
   }
   const video = findLargestPlayingVideo();
   if (video && !video.hasAttribute('__pip__')) {
-    await requestPictureInPicture(video);
+    observer.unobserve(observedVideo);
+    requestPictureInPicture(video);
   }
 }
 
@@ -58,6 +62,4 @@ async function maybeUpdatePictureInPictureVideo() {
   }
   await requestPictureInPicture(video);
   chrome.runtime.sendMessage({ message: 'enter' });
-
-  new ResizeObserver(maybeUpdatePictureInPictureVideo).observe(video);
 })();

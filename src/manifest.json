@@ -7,7 +7,7 @@
   },
   "background": {
     "persistent": false,
-    "scripts": ["background.js"]
+    "scripts": ["background.js", "context-menu.js"]
   },
   "browser_action": {
     "default_icon": {
@@ -32,7 +32,8 @@
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "permissions": [
     "<all_urls>",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "minimum_chrome_version": "69.0.3483.0",
   "manifest_version": 2

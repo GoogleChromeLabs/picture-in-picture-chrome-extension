@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-chrome.storage.sync.get({ optOutAnalytics: false }, results => {
+chrome.storage.sync.get({ optOutAnalytics: false, turnOffContextMenu: false}, results => {
   const optOutAnalyticsCheckbox = document.querySelector('#optOutAnalytics');
 
   optOutAnalyticsCheckbox.checked = results.optOutAnalytics;
@@ -20,7 +20,21 @@ chrome.storage.sync.get({ optOutAnalytics: false }, results => {
     chrome.storage.sync.set({
       optOutAnalytics: optOutAnalyticsCheckbox.checked
     }, _ => {
-      // Reload extension to make opt-out change immediate. 
+      // Reload extension to make opt-out change immediate.
+      chrome.runtime.reload();
+      window.close();
+    });
+  };
+
+  // Settings for turn off context menu
+  const turnOffContextMenuCheckbox = document.querySelector('#turnOffContextMenu');
+
+  turnOffContextMenuCheckbox.checked = results.turnOffContextMenu;
+  turnOffContextMenuCheckbox.onchange = _ => {
+    chrome.storage.sync.set({
+      turnOffContextMenu: turnOffContextMenuCheckbox.checked
+    }, _ => {
+      // Reload extension to make opt-out change immediate.
       chrome.runtime.reload();
       window.close();
     });

@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+function pictureInPictureEnabledOnDisneyPlus(){
+  const videoLock = document.querySelectorAll('video[disablepictureinpicture]')[0];
+  if(videoLock){
+    videoLock.removeAttribute('disablepictureinpicture');
+  }
+}
+
 function findLargestPlayingVideo() {
   const videos = Array.from(document.querySelectorAll('video'))
     .filter(video => video.readyState != 0)
@@ -52,6 +59,8 @@ function maybeUpdatePictureInPictureVideo(entries, observer) {
 }
 
 (async () => {
+  pictureInPictureEnabledOnDisneyPlus();
+
   const video = findLargestPlayingVideo();
   if (!video) {
     return;

@@ -12,27 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-if (!document.pictureInPictureEnabled) {
-  chrome.browserAction.setTitle({ title: 'Picture-in-Picture NOT supported' });
-} else {
-  chrome.browserAction.onClicked.addListener(tab => {
-    chrome.tabs.executeScript({ file: 'script.js', allFrames: true });
-  });
-}
 
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-134864766-1']);
+
+/// DOES NOT WORK IN MV3 
+/// `document` is not defined
+// if (!document.pictureInPictureEnabled) {
+//   chrome.action.setTitle({ title: 'Picture-in-Picture NOT supported' });
+// } else {
+  chrome.action.onClicked.addListener(tab => {
+    chrome.scripting.executeScript({ files: ['script.js'], target: {
+      allFrames: true,
+      tabId: tab.id
+    }});
+  });
+// }
+
+// var _gaq = _gaq || [];
+// _gaq.push(['_setAccount', 'UA-134864766-1']);
 
 chrome.runtime.onMessage.addListener(data => {
   if (data.message === 'enter')
     _gaq.push(['_trackPageview']);
 });
 
-chrome.storage.sync.get({ optOutAnalytics: false }, results => {
-  if (results.optOutAnalytics) {
-    return;
-  }
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = 'https://ssl.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-});
+// chrome.storage.sync.get({ optOutAnalytics: false }, results => {
+//   if (results.optOutAnalytics) {
+//     return;
+//   }
+//   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+//   ga.src = 'https://ssl.google-analytics.com/ga.js';
+//   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+// });

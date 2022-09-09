@@ -6,19 +6,10 @@
         "128": "assets/icon128.png"
     },
     "background": {
-        "persistent": false,
-        "scripts": [
-            "background.js"
-        ]
-    },
-    "browser_action": {
-        "default_icon": {
-            "19": "assets/icon19.png",
-            "38": "assets/icon38.png"
-        }
+        "service_worker": "background.js"
     },
     "commands": {
-        "_execute_browser_action": {
+        "_execute_action": {
             "suggested_key": {
                 "windows": "Alt+P",
                 "mac": "Alt+P",
@@ -27,15 +18,28 @@
             }
         }
     },
+    "action": {
+        "default_icon": {
+            "19": "assets/icon19.png",
+            "38": "assets/icon38.png"
+        }
+    },
     "options_ui": {
         "page": "options.html",
         "open_in_tab": false
     },
-    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+    "content_security_policy": {
+        "script-src": "self",
+        "object-src": "self"
+    },
     "permissions": [
-        "<all_urls>",
-        "storage"
+        "storage",
+        "tabs",
+        "scripting"
+    ],
+    "host_permissions": [
+        "*://*/*"
     ],
     "minimum_chrome_version": "69.0.3483.0",
-    "manifest_version": 2
+    "manifest_version": 3
 }

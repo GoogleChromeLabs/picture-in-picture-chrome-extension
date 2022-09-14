@@ -66,5 +66,4 @@ function maybeUpdatePictureInPictureVideo(entries, observer) {
 
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-134864766-1']);
-_gaq.push(['_setDomainName', chrome.runtime.getURL('')]);
 _gaq.push(['_setDetectTitle', false]);

@@ -19,6 +19,7 @@ chrome.action.onClicked.addListener((tab) => {
       : ["script.js", "ga.js"];
     chrome.scripting.executeScript({
       target: { tabId: tab.id, allFrames: true },
+      world: "MAIN",
       files,
     });
   });

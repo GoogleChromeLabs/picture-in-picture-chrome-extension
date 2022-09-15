@@ -61,5 +61,9 @@ function maybeUpdatePictureInPictureVideo(entries, observer) {
     return;
   }
   await requestPictureInPicture(video);
-  chrome.runtime.sendMessage({ message: 'enter' });
+  _gaq.push(['_trackPageview', '/']);
 })();
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-134864766-1']);
+_gaq.push(['_setDetectTitle', false]);

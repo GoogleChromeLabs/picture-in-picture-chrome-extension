@@ -1,7 +1,7 @@
 {
   "name": "Picture-in-Picture Extension (by Google)",
   "description": "Watch video using Picture-in-Picture",
-  "version": "1.11",
+  "version": "1.12",
   "icons": {
     "128": "assets/icon128.png"
   },
@@ -24,13 +24,8 @@
       }
     }
   },
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": false
-  },
   "permissions": [
-    "scripting",
-    "storage"
+    "scripting"
   ],
   "host_permissions": [
     "<all_urls>"

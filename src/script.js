@@ -61,5 +61,4 @@ function maybeUpdatePictureInPictureVideo(entries, observer) {
     return;
   }
   await requestPictureInPicture(video);
-  chrome.runtime.sendMessage({ message: 'enter' });
 })();

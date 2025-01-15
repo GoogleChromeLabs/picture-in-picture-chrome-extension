@@ -19,3 +19,42 @@ chrome.action.onClicked.addListener((tab) => {
     files: ["script.js"],
   });
 });
+
+chrome.runtime.onInstalled.addListener(async () => {
+  const { auto } = await chrome.storage.local.get({ auto: false });
+  chrome.contextMenus.create({
+    id: "id",
+    contexts: ["action"],
+    title: "Automatic picture-in-picture",
+    type: "checkbox",
+    checked: auto,
+  });
+});
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  toggleAutoPip(activeInfo.tabId);
+});
+
+chrome.tabs.onUpdated.addListener((tabId) => {
+  toggleAutoPip(tabId);
+});
+
+chrome.contextMenus.onClicked.addListener(async (item) => {
+  await chrome.storage.local.set({ auto: item.checked });
+  for (tab of await chrome.tabs.query({})) {
+    toggleAutoPip(tab.id);
+  }
+});
+
+async function toggleAutoPip(tabId) {
+  const { auto } = await chrome.storage.local.get({ auto: false });
+  let injection = { target: { tabId }, world: "MAIN" };
+  if (auto) {
+    injection.files = ["content-script.js"];
+  } else {
+    injection.func = () => {
+      navigator.mediaSession.setActionHandler("enterpictureinpicture", null);
+    };
+  }
+  chrome.scripting.executeScript(injection).catch(() => {});
+}

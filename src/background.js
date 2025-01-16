@@ -15,7 +15,6 @@
 chrome.action.onClicked.addListener((tab) => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id, allFrames: true },
-    world: "MAIN",
     files: ["script.js"],
   });
 });
@@ -48,7 +47,7 @@ chrome.contextMenus.onClicked.addListener(async (item) => {
 
 async function toggleAutoPip(tabId) {
   const { auto } = await chrome.storage.local.get({ auto: false });
-  let injection = { target: { tabId }, world: "MAIN" };
+  let injection = { target: { tabId } };
   if (auto) {
     injection.files = ["content-script.js"];
   } else {

@@ -30,10 +30,9 @@ function findLargestPlayingVideo() {
 }
 
 // Request video to automatically enter picture-in-picture when eligible.
-navigator.mediaSession.setActionHandler("enterpictureinpicture", async () => {
+navigator.mediaSession.setActionHandler("enterpictureinpicture", () => {
   const video = findLargestPlayingVideo();
-  if (!video) {
-    return;
+  if (video) {
+    video.requestPictureInPicture();
   }
-  await video.requestPictureInPicture();
 });

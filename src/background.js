@@ -20,32 +20,32 @@ chrome.action.onClicked.addListener((tab) => {
 });
 
 chrome.runtime.onInstalled.addListener(async () => {
-  const { autoPip } = await chrome.storage.local.get({ autoPip: false });
+  const { autoPip } = await chrome.storage.local.get({ autoPip: true });
   chrome.contextMenus.create({
-    id: "id",
+    id: "autoPip",
     contexts: ["action"],
-    title: "Automatic picture-in-picture (needs refresh)",
+    title: "Automatic picture-in-picture (BETA)",
     type: "checkbox",
     checked: autoPip,
   });
   updateContentScripts(autoPip);
 });
 
-chrome.contextMenus.onClicked.addListener(async (item) => {
-  chrome.storage.local.set({ autoPip: item.checked });
-  updateContentScripts(item.checked);
+chrome.contextMenus.onClicked.addListener(({checked: autoPip}) => {
+  chrome.storage.local.set({ autoPip });
+  updateContentScripts(autoPip);
 });
 
 function updateContentScripts(autoPip) {
+  chrome.action.setBadgeText({ text: autoPip ? "🧪" : "" });
   if (!autoPip) {
-    chrome.scripting.unregisterContentScripts({ ids: ["content-script"] }).catch(() => {})
+    chrome.scripting.unregisterContentScripts({ ids: ["autoPip"] });
     return;
   }
   chrome.scripting.registerContentScripts([{
-    id: "content-script",
-    js: ["content-script.js"],
+    id: "autoPip",
+    js: ["autoPip.js"],
     matches: ["<all_urls>"],
-    runAt: "document_start",
-    world: "MAIN"
+    runAt: "document_start"
   }])
 }

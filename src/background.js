@@ -15,7 +15,40 @@
 chrome.action.onClicked.addListener((tab) => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id, allFrames: true },
-    world: "MAIN",
     files: ["script.js"],
   });
 });
+
+chrome.runtime.onInstalled.addListener(async () => {
+  const { autoPip } = await chrome.storage.local.get({ autoPip: true });
+  chrome.contextMenus.create({
+    id: "autoPip",
+    contexts: ["action"],
+    title: "Automatic picture-in-picture (BETA)",
+    type: "checkbox",
+    checked: autoPip,
+  });
+  chrome.action.setBadgeBackgroundColor({ color: "#4285F4" });
+  chrome.action.setBadgeTextColor({ color: "#fff" });
+  updateContentScripts(autoPip);
+});
+
+chrome.contextMenus.onClicked.addListener(({ checked: autoPip }) => {
+  chrome.storage.local.set({ autoPip });
+  updateContentScripts(autoPip);
+});
+
+function updateContentScripts(autoPip) {
+  chrome.action.setTitle({title: `Automatic picture-in-picture (${autoPip ? "on" : "off"})`});
+  chrome.action.setBadgeText({ text: autoPip ? "★" : "" });
+  if (!autoPip) {
+    chrome.scripting.unregisterContentScripts({ ids: ["autoPip"] });
+    return;
+  }
+  chrome.scripting.registerContentScripts([{
+    id: "autoPip",
+    js: ["autoPip.js"],
+    matches: ["<all_urls>"],
+    runAt: "document_start"
+  }])
+}

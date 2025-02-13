@@ -28,6 +28,11 @@ chrome.runtime.onInstalled.addListener(async () => {
     type: "checkbox",
     checked: autoPip,
   });
+  updateContentScripts(autoPip);
+});
+
+chrome.runtime.onStartup.addListener(async () => {
+  const { autoPip } = await chrome.storage.local.get({ autoPip: true });
   chrome.action.setBadgeBackgroundColor({ color: "#4285F4" });
   chrome.action.setBadgeTextColor({ color: "#fff" });
   updateContentScripts(autoPip);

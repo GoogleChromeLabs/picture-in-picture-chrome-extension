@@ -12,6 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+(function () {
+  const host = location.hostname || "";
+  const isPornhub =
+    host === "pornhub.com" || /\.pornhub\.com$/i.test(host) || /phncdn\.com$/i.test(host);
+
+  if (!isPornhub) {
+    return;
+  }
+
+  const enablePipOnVideos = () => {
+    const videos = document.querySelectorAll("video");
+    videos.forEach((video) => {
+      try {
+        video.disablePictureInPicture = false;
+        if (video.hasAttribute("disablepictureinpicture")) {
+          video.removeAttribute("disablepictureinpicture");
+        }
+      } catch (e) {}
+    });
+  };
+
+  enablePipOnVideos();
+
+  const target = document.documentElement || document.body;
+  if (target) {
+    const observer = new MutationObserver(() => {
+      enablePipOnVideos();
+    });
+    observer.observe(target, { childList: true, subtree: true });
+  }
+})();
+
 function findLargestPlayingVideo() {
   const videos = Array.from(document.querySelectorAll("video"))
     .filter((video) => video.readyState != 0)
@@ -29,10 +61,10 @@ function findLargestPlayingVideo() {
   return videos[0];
 }
 
-// Request video to automatically enter picture-in-picture when eligible.
 navigator.mediaSession.setActionHandler("enterpictureinpicture", () => {
   const video = findLargestPlayingVideo();
   if (video) {
     video.requestPictureInPicture();
   }
 });
+await video.requestPictureInPicture();

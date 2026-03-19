@@ -12,14 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+(function () {
+  const host = location.hostname || "";
+  const isPornhub =
+    host === "pornhub.com" || /\.pornhub\.com$/i.test(host) || /phncdn\.com$/i.test(host);
+
+  if (!isPornhub) {
+    return;
+  }
+
+  const enablePipOnVideos = () => {
+    const videos = document.querySelectorAll("video");
+    videos.forEach((video) => {
+      try {
+        video.disablePictureInPicture = false;
+        if (video.hasAttribute("disablepictureinpicture")) {
+          video.removeAttribute("disablepictureinpicture");
+        }
+      } catch (e) {}
+    });
+  };
+
+  enablePipOnVideos();
+
+  const target = document.documentElement || document.body;
+  if (target) {
+    const observer = new MutationObserver(() => {
+      enablePipOnVideos();
+    });
+    observer.observe(target, { childList: true, subtree: true });
+  }
+})();
+
 function findLargestPlayingVideo() {
-  const videos = Array.from(document.querySelectorAll('video'))
-    .filter(video => video.readyState != 0)
-    .filter(video => video.disablePictureInPicture == false)
+  const videos = Array.from(document.querySelectorAll("video"))
+    .filter((video) => video.readyState != 0)
+    .filter((video) => video.disablePictureInPicture == false)
     .sort((v1, v2) => {
-      const v1Rect = v1.getClientRects()[0]||{width:0,height:0};
-      const v2Rect = v2.getClientRects()[0]||{width:0,height:0};
-      return ((v2Rect.width * v2Rect.height) - (v1Rect.width * v1Rect.height));
+      const v1Rect = v1.getClientRects()[0] || { width: 0, height: 0 };
+      const v2Rect = v2.getClientRects()[0] || { width: 0, height: 0 };
+      return v2Rect.width * v2Rect.height - v1Rect.width * v1Rect.height;
     });
 
   if (videos.length === 0) {
@@ -29,13 +61,15 @@ function findLargestPlayingVideo() {
   return videos[0];
 }
 
-async function requestPictureInPicture(video) {
-  await video.requestPictureInPicture();
-  video.setAttribute('__pip__', true);
-  video.addEventListener('leavepictureinpicture', event => {
-    video.removeAttribute('__pip__');
-  }, { once: true });
-  new ResizeObserver(maybeUpdatePictureInPictureVideo).observe(video);
+async function safeRequestPictureInPicture(video) {
+  try {
+    // small delay so Chrome doesn't steal focus
+    setTimeout(async () => {
+      safeRequestPictureInPicture(video);
+    }, 100); // 100ms is usually enough
+  } catch (error) {
+    console.error("Safe PiP failed:", error);
+  }
 }
 
 function maybeUpdatePictureInPictureVideo(entries, observer) {
@@ -45,7 +79,7 @@ function maybeUpdatePictureInPictureVideo(entries, observer) {
     return;
   }
   const video = findLargestPlayingVideo();
-  if (video && !video.hasAttribute('__pip__')) {
+  if (video && !video.hasAttribute("__pip__")) {
     observer.unobserve(observedVideo);
     requestPictureInPicture(video);
   }
@@ -56,7 +90,7 @@ function maybeUpdatePictureInPictureVideo(entries, observer) {
   if (!video) {
     return;
   }
-  if (video.hasAttribute('__pip__')) {
+  if (video.hasAttribute("__pip__")) {
     document.exitPictureInPicture();
     return;
   }

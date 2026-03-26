@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-function findLargestPlayingVideo() {
+function findLargestPlayingVideo(anyVideo = false) {
   const videos = Array.from(document.querySelectorAll('video'))
     .filter(video => video.readyState != 0)
-    .filter(video => video.disablePictureInPicture == false)
+    .filter(video => anyVideo || video.disablePictureInPicture == false)
     .sort((v1, v2) => {
       const v1Rect = v1.getClientRects()[0]||{width:0,height:0};
       const v2Rect = v2.getClientRects()[0]||{width:0,height:0};
@@ -23,9 +23,16 @@ function findLargestPlayingVideo() {
     });
 
   if (videos.length === 0) {
+    if (!anyVideo) {
+      // If we couldn't find any enabled videos, try to find disabled ones.
+      return findLargestPlayingVideo(true);
+    }
     return;
   }
 
+  if (anyVideo) {
+    videos[0].disablePictureInPicture = false;
+  }
   return videos[0];
 }
 

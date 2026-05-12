@@ -15,7 +15,6 @@
 function findLargestPlayingVideo() {
   const videos = Array.from(document.querySelectorAll("video"))
     .filter((video) => video.readyState != 0)
-    .filter((video) => video.disablePictureInPicture == false)
     .sort((v1, v2) => {
       const v1Rect = v1.getClientRects()[0] || { width: 0, height: 0 };
       const v2Rect = v2.getClientRects()[0] || { width: 0, height: 0 };
@@ -29,10 +28,17 @@ function findLargestPlayingVideo() {
   return videos[0];
 }
 
+function enablePictureInPicture(video) {
+  if (video.disablePictureInPicture) {
+    video.disablePictureInPicture = false;
+  }
+}
+
 // Request video to automatically enter picture-in-picture when eligible.
 navigator.mediaSession.setActionHandler("enterpictureinpicture", () => {
   const video = findLargestPlayingVideo();
   if (video) {
+    enablePictureInPicture(video);
     video.requestPictureInPicture();
   }
 });

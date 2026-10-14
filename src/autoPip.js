@@ -612,22 +612,36 @@ function setupAutoPipWindow(pipWin, initialVideo) {
     }
     return "";
   };
+  // YT Music's 2026 UI dropped ytmusic-player-bar; the song title now lives in
+  // ytmusic-track-info .ytmusicTrackInfoTitle, and the queue panel reuses the
+  // old ".title" class for its "Playing from" label. cleanTitle keeps nav and
+  // queue labels from ever showing up as the song name.
+  const cleanTitle = (txt) => {
+    const t = String(txt || "").replace(/\s+/g, " ").trim();
+    if (!t || t.length > 200) return "";
+    if (/^(playing from|home|explore|library|upgrade|search|downloads?|new playlist|history)\b/i.test(t)) return "";
+    return t;
+  };
   const pickTrackTitle = () => {
     const isYtMusic = /(^|\.)music\.youtube\.com$/i.test(location.hostname);
+    try {
+      const md = navigator.mediaSession && navigator.mediaSession.metadata;
+      const mdTitle = cleanTitle(md && md.title);
+      if (mdTitle) return mdTitle;
+    } catch (_) {}
     if (isYtMusic) {
+      const newTitleEl = queryDeepFirst(document, ["ytmusic-track-info .ytmusicTrackInfoTitle"]);
+      const newTxt = cleanTitle(newTitleEl ? (newTitleEl.getAttribute("title") || newTitleEl.textContent) : "");
+      if (newTxt) return newTxt;
       const liveTitle = queryDeepFirst(document, [
         "ytmusic-player-bar .title",
         "ytmusic-player-bar .title.style-scope.ytmusic-player-bar",
         "ytmusic-player-page .title",
         "#layout ytmusic-player-bar .title"
       ]);
-      const txt = liveTitle ? (liveTitle.textContent || "").trim() : "";
+      const txt = cleanTitle(liveTitle ? liveTitle.textContent : "");
       if (txt) return txt;
     }
-    try {
-      const md = navigator.mediaSession && navigator.mediaSession.metadata;
-      if (md && md.title) return String(md.title);
-    } catch (_) {}
     const titleCandidates = [
       "ytmusic-player-bar .title",
       "ytmusic-player-bar .ytmusic-player-bar.title",
@@ -638,7 +652,7 @@ function setupAutoPipWindow(pipWin, initialVideo) {
     for (const sel of titleCandidates) {
       const el = document.querySelector(sel);
       if (!el) continue;
-      const txt = (el.textContent || "").trim();
+      const txt = cleanTitle(el.textContent);
       if (txt) return txt;
     }
     return "";

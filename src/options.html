@@ -1,0 +1,185 @@
+<!--
+  Copyright 2026 Google LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Picture-in-Picture Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 14px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #4285f4;
+    }
+    .help-text {
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .help-text code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Consolas', 'Monaco', monospace;
+    }
+    .button-group {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #save {
+      background: #4285f4;
+      color: white;
+    }
+    #save:hover {
+      background: #3367d6;
+    }
+    #reset {
+      background: #e0e0e0;
+      color: #333;
+    }
+    #reset:hover {
+      background: #d0d0d0;
+    }
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 4px;
+      display: none;
+    }
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .examples {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      border-left: 4px solid #4285f4;
+    }
+    .examples h3 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: #333;
+    }
+    .examples ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      color: #666;
+    }
+    .examples li {
+      margin: 5px 0;
+      font-family: 'Consolas', 'Monaco', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ Auto-PiP Settings</h1>
+    <p class="subtitle">Configure which sites automatically trigger Picture-in-Picture</p>
+
+    <label for="sites">Enabled Sites (one URL pattern per line):</label>
+    <textarea id="sites" placeholder="https://www.youtube.com/*
+https://music.youtube.com/*
+https://vimeo.com/*
+https://www.twitch.tv/*"></textarea>
+    
+    <div class="help-text">
+      Enter one URL pattern per line. You can use:
+      <br>• <code>*</code> to match any characters
+      <br>• <code>https://www.youtube.com/*</code> matches all YouTube pages
+      <br>• <code>*://example.com/*</code> matches http and https
+    </div>
+
+    <div class="examples">
+      <h3>📌 Common Examples:</h3>
+      <ul>
+        <li>https://www.youtube.com/*</li>
+        <li>https://youtube.com/*</li>
+        <li>https://music.youtube.com/*</li>
+        <li>https://www.netflix.com/*</li>
+        <li>https://vimeo.com/*</li>
+        <li>https://www.twitch.tv/*</li>
+      </ul>
+    </div>
+
+    <div class="button-group">
+      <button id="save">💾 Save Settings</button>
+      <button id="reset">🔄 Reset to Default</button>
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
